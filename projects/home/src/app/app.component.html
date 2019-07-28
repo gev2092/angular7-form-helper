@@ -1,0 +1,70 @@
+<div class="container p-3">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form" (submit)="submit()">
+        <div class="card">
+          <div class="card-header">User Profile</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="form-group col-6">
+                <label>First Name</label>
+                <input class="form-control" formControlName="firstName" type="text">
+                <span class="text-danger"
+                      *ngIf="form.controls['firstName'].touched && form.controls['firstName'].hasError('required')">
+                                    First Name is required!
+                                </span>
+              </div>
+              <div class="form-group col-6">
+                <label>Last Name</label>
+                <input class="form-control" formControlName="lastName" type="text">
+                <span class="text-danger"
+                      *ngIf="form.controls['lastName'].touched && form.controls['lastName'].hasError('required')">
+                                    Last Name is required!
+                                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-header">Additional Info</div>
+          <div class="card-body" formArrayName="additional">
+            <div class="row">
+              <div class="col-6" *ngFor="let item of form.get('additional')['controls']; let i = index;">
+                <div [formGroupName]="i" class="row">
+                  <div class="form-group col-6">
+                    <label>Label</label>
+                    <input class="form-control" formControlName="name" type="text">
+                    <span class="text-danger"
+                          *ngIf="form.get('additional').get([i]).get('name').touched && form.get('additional').get([i]).get('name').hasError('required')">
+                                            Label is required!
+                                        </span>
+                  </div>
+                  <div class="form-group col-12">
+                    <label>Another Label</label>
+                    <input class="form-control" formControlName="value" type="text">
+                    <span class="text-danger"
+                          *ngIf="form.get('additional').get([i]).get('value').touched && form.get('additional').get([i]).get('value').hasError('required')">
+                                            required field
+                                         </span>
+                  </div>
+                  <div class="form-group col-12 text-right">
+                    <button class="btn btn-danger" type="button"
+                            (click)="form.removeItem('additional', i)"> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="col-12">
+              <button class="btn btn-primary m-1" type="button"
+                      (click)="form.addItem('additional', fb.groupCustom(list))"> Add New
+              </button>
+              <button class="btn btn-success m-1" [disabled]="!form.valid" type="submit"> Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
